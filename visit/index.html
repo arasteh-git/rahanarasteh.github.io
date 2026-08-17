@@ -401,6 +401,56 @@
     transition: background 0.2s;
   }
   .modal-close:hover { background: var(--warm-brown); }
+  
+/* REVIEWS */
+  .reviews {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+  }
+  .reviews-head {
+    display: flex; align-items: baseline; gap: 1rem;
+    padding-bottom: 0.75rem; margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--sand);
+  }
+  .reviews-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400; color: var(--dark-brown);
+  }
+  .reviews-head .score {
+    font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .review-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+  .review {
+    background: var(--white); border: 1px solid var(--sand);
+    border-radius: 2px; padding: 1.5rem;
+    box-shadow: 0 4px 30px rgba(60,40,20,0.06);
+    display: flex; flex-direction: column;
+  }
+  .review .stars {
+    color: var(--accent); font-size: 0.8rem;
+    letter-spacing: 0.15em; margin-bottom: 0.85rem;
+  }
+  .review blockquote {
+    margin: 0 0 1.1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; line-height: 1.65;
+    color: var(--text); font-style: italic; flex: 1;
+  }
+  .review cite {
+    font-style: normal; font-size: 0.68rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); line-height: 1.7;
+  }
+  .review cite b {
+    display: block; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: none;
+    font-size: 0.85rem; color: var(--warm-brown);
+  }
 </style>
 </head>
 <body>
@@ -438,9 +488,10 @@
       <p class="about-text">Mi casa es su casa — well, mi sofá es su sofá. Come crash in NYC, I've got good tea, no coffee and questionable taste in movies.</p>
       <div class="about-detail">
         <div class="about-row"><span>📍</span><span>Brooklyn (text w/confirmation for exact address)</span></div>
-        <div class="about-row"><span>🚇</span><span>J/Z at the corner, ~30 min to Manhattan</span></div>
-        <div class="about-row"><span>🛁</span><span>Shared bathroom, clean towels provided when available</span></div>
+        <div class="about-row"><span>🚇</span><span>J/Z at the corner, ~30 min to Manhattan.</span></div>
+        <div class="about-row"><span>🛁</span><span>Shared bathroom, clean towels provided when available.</span></div>
         <div class="about-row"><span>🐈</span><span>There is a cat. Her name is Badoom. She runs the place.</span></div>
+        <div class="about-row"><span>💵</span><span>Free in dollars! You pay with your soul. Given Midtown hotel prices: a steal!</span>
       </div>
     </div>
   </div>
@@ -455,7 +506,7 @@
 
     <div class="form-group">
       <label for="guestEmail">Your Email</label>
-      <input type="email" id="guestEmail" placeholder="you@email.com" autocomplete="email" />
+      <input type="email" id="guestEmail" placeholder="you@myapartment.com" autocomplete="email" />
     </div>
 
     <div class="form-group" id="passcodeGroup" style="display:none">
@@ -491,6 +542,33 @@
 
 </div>
 
+<section class="reviews">
+  <div class="reviews-head">
+    <h2>Guest Reviews</h2>
+    <span class="score">4.9 · 12 stays</span>
+  </div>
+
+  <div class="review-grid">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <blockquote>Plenty of space for completely legitimate... Activities</blockquote>
+      <b>Badoom - Owner</b>Stayed Forever
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <blockquote>Lovely cat who will wake you up at 3am.</blockquote>
+      <b>Jessica - Friend</b>Stayed July 2026
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <blockquote>Host will let you sleep on bed if you cuddle with him. Worth it.</blockquote>
+      <b>Maggie - Girlfriend</b>Stayed August 2026
+    </div>
+  </div>
+</section>
+
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-icon">🎉</div>
@@ -500,7 +578,7 @@
   </div>
 </div>
 
-<footer>rahanarasteh.com/visit &nbsp;·&nbsp; a very unofficial hotel</footer>
+<footer>rahanarasteh.com/visit &nbsp;·&nbsp; legally not a hotel</footer>
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
