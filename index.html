@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/favicon.png">
 <title>Rahan Arasteh</title>
+<meta name="description" content="Rahan Arasteh — data science and analytics in New York. Film photography, soccer jerseys, and transit maps.">
+<meta property="og:title" content="Rahan Arasteh">
+<meta property="og:description" content="Data science and analytics in New York. Film photography, soccer jerseys, and transit maps.">
+<meta property="og:image" content="https://rahanarasteh.com/photos/23.jpg">
+<meta property="og:url" content="https://rahanarasteh.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -138,6 +145,19 @@
     font-family:var(--display);font-weight:600;
     font-size:clamp(26px,3.6vw,42px);letter-spacing:-.025em;
     margin:0;
+  }
+  .plate__head h2 a{
+    color:inherit;text-decoration:none;
+    box-shadow:inset 0 -1px 0 rgba(240,168,30,0);
+    transition:color .25s, box-shadow .25s;
+  }
+  .plate__head h2 a:hover{
+    color:var(--marigold);
+    box-shadow:inset 0 -1px 0 var(--marigold);
+  }
+  .plate__head h2 a::after{
+    content:"↗";font-family:var(--mono);font-size:.4em;
+    vertical-align:super;margin-left:.3em;color:var(--marigold);
   }
   .rule{flex:1;height:1px;background:var(--hair);min-width:30px}
 
@@ -577,6 +597,19 @@
   footer a{color:var(--marigold);text-decoration:none;border-bottom:1px solid rgba(240,168,30,.35)}
   footer a:hover{border-bottom-color:var(--marigold)}
   .colophon{margin-top:44px;display:flex;gap:20px;flex-wrap:wrap}
+  .elsewhere{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,240px));
+    gap:1px;background:var(--hair);border:1px solid var(--hair);
+    max-width:760px;
+  }
+  .elsewhere a{
+    background:var(--ink);padding:16px 18px;display:block;
+    border:0;text-decoration:none;color:var(--paper);
+    font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+    transition:background .25s;
+  }
+  .elsewhere a:hover{background:var(--ink-2);border:0}
+  .elsewhere .label{display:block;margin-bottom:7px}
 
   :focus-visible{outline:2px solid var(--marigold);outline-offset:3px}
 
@@ -693,7 +726,7 @@
   <section class="plate rise">
     <div class="plate__head">
       <span class="label label--gold">Frame 05</span>
-      <h2>What I&rsquo;m doing now</h2>
+      <h2><a href="https://www.linkedin.com/in/rahan-arasteh-486a62217" target="_blank" rel="noopener">What I&rsquo;m doing now</a></h2>
       <span class="rule"></span>
     </div>
     <div class="cols">
@@ -1354,12 +1387,25 @@ Unsurprisingly, I am also a massive fan of public transit. Whenever I go on a tr
   </section>
 
   <footer>
-    <p class="big">Frame six is still unexposed.</p>
-    <p style="max-width:46ch;font-weight:300;color:#c3cac5;margin:0 0 22px">
+    <p class="big">Frame six is still undeveloped</p>
+    <p style="max-width:46ch;font-weight:300;color:#c3cac5;margin:0 0 26px">
       New York for the foreseeable future, with a long-running plan to end up somewhere across the Atlantic.
-      If you want to talk data, soccer, college sports, or film stock email me here:
+      If you want to talk data, soccer, college sports, or film stock:
     </p>
-    <p style="margin:0"><a href="mailto:hello@rahanarasteh.com">hello@rahanarasteh.com</a></p>
+    <div class="elsewhere">
+      <a href="mailto:hello@rahanarasteh.com">
+        <span class="label label--gold">Email</span>
+        hello@rahanarasteh.com
+      </a>
+      <a href="https://www.linkedin.com/in/rahan-arasteh-486a62217/" target="_blank" rel="noopener">
+        <span class="label label--gold">LinkedIn</span>
+        in/rahan-arasteh-486a62217/
+      </a>
+      <a href="https://github.com/arasteh-git" target="_blank" rel="noopener">
+        <span class="label label--gold">GitHub</span>
+        /arasteh-git
+      </a>
+    </div>
     <div class="colophon">
       <span class="label">Built in one page</span>
       <span class="label">No trackers</span>
