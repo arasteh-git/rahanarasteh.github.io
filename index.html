@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahan Arasteh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#101418;
+    --ink-2:#1a2027;
+    --paper:#e6e9e4;
+    --paper-dim:#a9b1ad;
+    --marigold:#f0a81e;
+    --cyan:#2e8c93;
+    --rose:#c2455c;
+    --hair:rgba(230,233,228,.16);
+
+    --display:"Bricolage Grotesque","Helvetica Neue",sans-serif;
+    --body:"Newsreader",Georgia,serif;
+    --mono:"Azeret Mono",ui-monospace,monospace;
+
+    --gutter:clamp(20px,5vw,72px);
+    --rail:44px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--body);
+    font-size:clamp(16px,1.05vw + 13px,19px);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:99;
+    opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .label{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--paper-dim);
+  }
+  .label--gold{color:var(--marigold)}
+
+  /* ---------- film rail ---------- */
+  .rail{
+    position:fixed;top:0;left:0;bottom:0;width:var(--rail);z-index:20;
+    background:var(--ink-2);
+    border-right:1px solid var(--hair);
+    display:flex;flex-direction:column;align-items:center;
+    justify-content:space-around;padding:14px 0;
+  }
+  .sprocket{
+    width:14px;height:20px;border-radius:3px;
+    background:var(--ink);
+    box-shadow:inset 0 0 0 1px var(--hair);
+    flex:0 0 auto;
+  }
+  .rail__mark{
+    position:absolute;bottom:18px;left:50%;transform:translateX(-50%) rotate(180deg);
+    writing-mode:vertical-rl;font-family:var(--mono);font-size:9px;
+    letter-spacing:.3em;color:var(--marigold);opacity:.75;
+  }
+
+  .shell{margin-left:var(--rail);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:clamp(56px,12vh,140px) var(--gutter) clamp(40px,8vh,80px);
+    border-bottom:1px solid var(--hair);
+    position:relative;overflow:hidden;
+  }
+  .hero__meta{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:28px}
+  .hero h1{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(52px,12vw,148px);
+    line-height:.86;
+    letter-spacing:-.035em;
+    margin:0 0 6px;
+    font-variation-settings:"wdth" 105;
+  }
+  .hero h1 em{
+    font-style:normal;display:block;color:var(--marigold);
+  }
+  .hero__sub{
+    max-width:44ch;margin:26px 0 0;
+    font-size:1.12em;font-weight:300;color:#cfd6d0;
+  }
+  .hero__sub b{font-weight:400;color:var(--paper);border-bottom:1px solid var(--cyan)}
+
+  /* strip of city frames */
+  .strip{
+    display:flex;gap:0;margin-top:clamp(34px,6vh,64px);
+    border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+    overflow-x:auto;scrollbar-width:thin;
+  }
+  .frame{
+    flex:1 0 132px;min-width:132px;
+    padding:16px 14px 18px;
+    border-right:1px solid var(--hair);
+    position:relative;
+  }
+  .frame:last-child{border-right:0}
+  .frame__n{font-family:var(--mono);font-size:10px;color:var(--paper-dim);letter-spacing:.2em}
+  .frame__city{
+    font-family:var(--display);font-weight:600;font-size:19px;
+    letter-spacing:-.01em;margin:8px 0 2px;line-height:1.1;
+  }
+  .frame__yr{font-family:var(--mono);font-size:10.5px;color:var(--cyan);letter-spacing:.1em}
+  .frame--live .frame__city{color:var(--marigold)}
+  .frame--live::after{
+    content:"";position:absolute;inset:6px;border:2px solid var(--rose);
+    border-radius:52% 48% 46% 54%/48% 52% 48% 52%;
+    opacity:.9;pointer-events:none;
+  }
+  .frame--next{opacity:.45}
+  .frame--next .frame__city{font-style:italic;font-family:var(--body);font-weight:400}
+
+  /* ---------- sections ---------- */
+  section.plate{
+    padding:clamp(48px,9vh,104px) var(--gutter);
+    border-bottom:1px solid var(--hair);
+  }
+  .plate__head{
+    display:flex;align-items:baseline;gap:16px;margin-bottom:34px;
+    flex-wrap:wrap;
+  }
+  .plate__head h2{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(26px,3.6vw,42px);letter-spacing:-.025em;
+    margin:0;
+  }
+  .rule{flex:1;height:1px;background:var(--hair);min-width:30px}
+
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:34px 40px}
+  .cols p{margin:.5em 0 0}
+  .cols .label{display:block;margin-bottom:10px}
+
+  dl.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:14px 22px;align-items:baseline}
+  dl.facts dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-dim);white-space:nowrap}
+  dl.facts dd{margin:0;font-weight:300}
+  dl.facts dd small{display:block;font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:.05em;margin-top:3px}
+
+  /* ---------- kit wall (signature) ---------- */
+  .kits{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
+    gap:clamp(14px,2.2vw,26px);
+  }
+  .kit{
+    position:relative;aspect-ratio:1/1.14;
+    -webkit-clip-path:polygon(30% 0,40% 7%,60% 7%,70% 0,100% 15%,88% 36%,81% 29%,81% 100%,19% 100%,19% 29%,12% 36%,0 15%);
+    clip-path:polygon(30% 0,40% 7%,60% 7%,70% 0,100% 15%,88% 36%,81% 29%,81% 100%,19% 100%,19% 29%,12% 36%,0 15%);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .3s cubic-bezier(.2,.7,.3,1);
+  }
+  .kit span{
+    font-family:var(--display);font-weight:800;font-size:clamp(20px,3.4vw,30px);
+    letter-spacing:-.04em;mix-blend-mode:luminosity;opacity:.92;
+    position:relative;z-index:3;
+  }
+  /* collars */
+  .kit--vneck::before{
+    border-radius:0!important;
+    -webkit-clip-path:polygon(0 0,100% 0,50% 100%);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    height:15%!important;left:30%!important;right:30%!important;
+  }
+  .kit--collar::before{
+    content:"";position:absolute;left:25%;right:25%;top:5%;height:9%;
+    border-radius:0 0 42% 42%/0 0 100% 100%;z-index:2;
+  }
+  .k-usa24.kit--collar::before{
+    background:linear-gradient(90deg,#0a3161 0 50%,#c8102e 50% 100%);
+  }
+  .k-iran.kit--collar::before{
+    background:linear-gradient(180deg,#239f40 0 34%,#fbfbfb 34% 67%,#da0000 67% 100%);
+  }
+  .k-ars-2223.kit--collar::before{
+    background:#fbfbfb url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10' viewBox='0 0 24 10' preserveAspectRatio='none'%3E%3Cpath d='M0 7 L4 3 L8 7 L12 3 L16 7 L20 3 L24 7' stroke='%23e01c2c' stroke-width='2.2' fill='none'/%3E%3C/svg%3E") center/12px 100% repeat-x;
+  }
+  .kit-cell figcaption{
+    margin-top:10px;font-family:var(--mono);font-size:10px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--paper-dim);
+    line-height:1.5;
+  }
+  .kit-cell figcaption b{display:block;color:var(--paper);font-weight:500}
+  .kit-cell:hover .kit,.kit-cell:focus-within .kit{transform:translateY(-7px) rotate(-2deg)}
+
+  .k-arsenal{
+    background:linear-gradient(90deg,#fff 0 14%,#db0007 14% 86%,#fff 86% 100%);
+    box-shadow:inset 0 -4px 0 #c9a227;
+  }
+  .k-arsenal::after{
+    content:"";position:absolute;left:14%;right:14%;top:0;bottom:0;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='60' viewBox='0 0 26 60'%3E%3Cpath d='M13 -4 L7 16 L15 16 L9 34 L17 34 L11 52 L19 52 L13 68' stroke='%23a30510' stroke-width='2.4' fill='none' opacity='.9'/%3E%3C/svg%3E") center/26% auto repeat;
+    pointer-events:none;
+  }
+  .k-arsenal span{color:#f2e2b0}
+  .k-arsenal.kit--collar::before{background:linear-gradient(180deg,#c9a227 0 50%,#8d1119 50% 100%)}
+  .k-inter{
+    background-image:
+      repeating-linear-gradient(90deg,#0a0a0a 0 13%,#1c46b5 13% 26%),
+      repeating-linear-gradient(52deg,#0a0a0a 0 11px,#1c46b5 11px 22px);
+    background-size:50% 100%, 50% 100%;
+    background-position:left top, right top;
+    background-repeat:no-repeat, no-repeat;
+  }
+  .k-inter span{color:#e8e8e8}
+  .squad{margin-bottom:clamp(34px,5vw,56px)}
+  .squad:last-of-type{margin-bottom:0}
+  .squad__head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .squad__head .rule{min-width:20px}
+
+  .k-usa26{
+    background:#f5efe1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='34' viewBox='0 0 72 34'%3E%3Cpath d='M-6 9 C 6 17, 18 1, 30 9 C 42 17, 54 1, 66 9 C 78 17, 90 1, 102 9' stroke='%23c8102e' stroke-width='6' fill='none'/%3E%3Cpath d='M-6 26 C 6 34, 18 18, 30 26 C 42 34, 54 18, 66 26 C 78 34, 90 18, 102 26' stroke='%238f1a2c' stroke-width='6' fill='none'/%3E%3C/svg%3E");
+    background-size:72px 34px;
+  }
+  .k-usa26 span{color:#1b2a58;mix-blend-mode:normal;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+  .k-usa26.kit--collar::before{background:#16234a}
+  .k-usa24{background:linear-gradient(150deg,#fbfbfb,#dfe4ea)}
+  .k-usa24 span{color:#1b2a58}
+
+  .k-ars-2627{
+    background-image:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0 2px,transparent 2px 7px),
+      linear-gradient(90deg,#f4f6f8 0 16%,#d40b18 16% 84%,#f4f6f8 84% 100%);
+    box-shadow:inset 0 -3px 0 #7c1524;
+  }
+  .k-ars-2627 span{color:#fbe9c8}
+  .k-ars-2627.kit--collar::before{
+    background:#7c1524 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cg fill='%23c0303f'%3E%3Crect x='0' y='0' width='2' height='2'/%3E%3Crect x='4' y='2' width='2' height='2'/%3E%3Crect x='2' y='4' width='2' height='2'/%3E%3Crect x='6' y='6' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E") center/5px 5px repeat;
+    border-radius:0 0 30% 30%/0 0 100% 100%;
+  }
+  .k-ars-2223{background:linear-gradient(90deg,#fff 0 14%,#e01c2c 14% 86%,#fff 86% 100%)}
+  .k-ars-2223 span{color:#12264f}
+  /* Arsenal thirds */
+  .k-ars-2425{background:linear-gradient(150deg,#6fd6cf 0 46%,#b7a3e0 46% 100%);box-shadow:inset 0 -4px 0 #1c2b5e}
+  .k-ars-2425 span{color:#1c2b5e}
+  .k-ars-2526{
+    background:linear-gradient(150deg,#fdfcf7,#f0ece0);
+    box-shadow:inset 0 -4px 0 #6d1d2c, inset 0 -8px 0 #c9a227;
+  }
+  .k-ars-2526 span{color:#6d1d2c}
+  .k-ars-2526.kit--collar::before{
+    background:repeating-linear-gradient(180deg,#6d1d2c 0 30%,#c9a227 30% 55%,#fdfcf7 55% 100%);
+  }
+
+  /* Barcelona */
+  .k-barca-city{
+    background:repeating-linear-gradient(90deg,#004d98 0 16%,#a50044 16% 32%);
+    position:relative;
+  }
+  .k-barca-city::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:34%;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='30' preserveAspectRatio='none' viewBox='0 0 100 30'%3E%3Cpath d='M0 30 L0 18 L7 18 L7 12 L12 12 L12 20 L20 20 L20 8 L24 4 L28 8 L28 20 L36 20 L36 14 L44 14 L44 22 L52 22 L52 6 L56 2 L60 6 L60 22 L68 22 L68 16 L76 16 L76 21 L86 21 L86 11 L92 11 L92 19 L100 19 L100 30 Z' fill='%230a1c3a' opacity='.55'/%3E%3C/svg%3E") bottom/100% 100% no-repeat;
+  }
+  .k-barca-city span{position:relative;z-index:1;color:#ffed02}
+  .k-barca-pink{background:linear-gradient(150deg,#f0619a 0 80%,#1fa07a 80% 100%)}
+  .k-barca-pink span{color:#0f5c46}
+  .k-barca-2021{
+    background:repeating-linear-gradient(90deg,
+      #004d98 0 13%,#f4c430 13% 14.5%,#a50044 14.5% 27.5%,#f4c430 27.5% 29%);
+  }
+  .k-barca-2021 span{color:#f4c430}
+  .k-barca-2021.kit--collar::before{background:#f4c430}
+  .k-barca-2324{
+    background:linear-gradient(90deg,
+      #a50044 0 13%,#004d98 13% 31%,#a50044 31% 45%,#004d98 45% 55%,
+      #a50044 55% 69%,#004d98 69% 87%,#a50044 87% 100%);
+  }
+  .k-barca-2324::after{
+    content:"";position:absolute;left:0;right:0;top:0;height:30%;
+    background:#004d98;
+  }
+  .k-barca-2324 span{color:#fff}
+  .k-barca-2425{
+    background:linear-gradient(90deg,#004d98 0 50%,#a50044 50% 100%);
+    box-shadow:inset 0 -4px 0 #c9a227;
+  }
+  .k-barca-2425 span{color:#e8c56a}
+  .k-barca-thin{
+    background-image:
+      linear-gradient(90deg,#16306f 0 18%,transparent 18% 82%,#16306f 82% 100%),
+      repeating-linear-gradient(90deg,#16306f 0 5.1%,#a50044 5.1% 7%);
+  }
+  .k-barca-thin span{color:#ffed02}
+  .k-barca-expand{
+    background-image:
+      linear-gradient(90deg,#14245e 0 11%,#7a1030 11% 13.5%,#14245e 13.5% 18%,transparent 18% 82%,#14245e 82% 86.5%,#7a1030 86.5% 89%,#14245e 89% 100%),
+      linear-gradient(90deg,
+      #14245e 0 4%,#8d1a3c 4% 5.5%,#14245e 5.5% 10%,#8d1a3c 10% 12.5%,
+      #14245e 12.5% 18%,#96153f 18% 22%,#14245e 22% 29%,#a50044 29% 35%,
+      #14245e 35% 41%,#a50044 41% 59%,#14245e 59% 65%,#a50044 65% 71%,
+      #14245e 71% 78%,#96153f 78% 82%,#14245e 82% 87.5%,#8d1a3c 87.5% 90%,
+      #14245e 90% 94.5%,#8d1a3c 94.5% 96%,#14245e 96% 100%);
+  }
+  .k-barca-expand span{color:#ffed02}
+  .k-barca-1213{
+    background:linear-gradient(90deg,
+      #0b1738 0%,#12256b 16%,#5c1145 34%,#a50044 50%,#5c1145 66%,#12256b 84%,#0b1738 100%);
+  }
+  .k-barca-1213 span{color:#ffd75e}
+  .k-barca-1213.kit--collar::before{background:#c8102e}
+
+  .kit-cell--star .kit{box-shadow:0 0 0 2px var(--marigold)}
+  .kit-cell--star figcaption b::after{content:" ★";color:var(--marigold)}
+  .k-iran{
+    background:linear-gradient(150deg,#fdfdfb,#e2e6dd);
+    box-shadow:inset 0 -5px 0 #da0000;
+  }
+  .k-iran span{color:#1f8a4c}
+  .k-perse{
+    background:
+      linear-gradient(90deg,#f2f4f6 0 15%,transparent 15% 85%,#f2f4f6 85% 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='%23a20c1e' opacity='.85'%3E%3Ccircle cx='9' cy='9' r='3.4'/%3E%3Cpath d='M9 2 L11 7 L16 9 L11 11 L9 16 L7 11 L2 9 L7 7 Z'/%3E%3Crect x='22' y='4' width='8' height='3' rx='1.2'/%3E%3Crect x='24' y='10' width='4' height='9' rx='1.4'/%3E%3Cpath d='M26 24 L30 30 L22 30 Z'/%3E%3Ccircle cx='9' cy='26' r='4.2'/%3E%3Ccircle cx='9' cy='26' r='1.6' fill='%23d3122a'/%3E%3C/g%3E%3C/svg%3E"),
+      linear-gradient(160deg,#d3122a,#a80f22);
+    background-size:auto, 26% auto, auto;
+  }
+  .k-perse::after{
+    content:"";position:absolute;left:32%;right:32%;top:4%;height:11%;
+    background:#f2f4f6;border-radius:0 0 45% 45%/0 0 100% 100%;
+  }
+  .k-perse span{color:#ffd25e;position:relative;z-index:3}
+  .k-utd{
+    background:
+      repeating-linear-gradient(45deg,
+        rgba(31,74,140,.9) 0 3px, transparent 3px 9px,
+        rgba(122,166,217,.85) 9px 13px, transparent 13px 22px),
+      linear-gradient(150deg,#eef2f8,#cfdcee);
+    box-shadow:inset 0 -4px 0 #c8102e;
+  }
+  .k-utd span{color:#12264f}
+  .k-spain{
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='120' viewBox='0 0 30 120'%3E%3Cg%3E%3Cpath d='M15 4 L26 16 L15 28 L4 16 Z' fill='%23f5c518'/%3E%3Cpath d='M15 30 L26 42 L15 54 L4 42 Z' fill='%231b2a5e'/%3E%3Cpath d='M15 56 L26 68 L15 80 L4 68 Z' fill='%23f5c518'/%3E%3Cpath d='M15 82 L26 94 L15 106 L4 94 Z' fill='%231b2a5e'/%3E%3C/g%3E%3C/svg%3E") right 12% top/22% auto repeat-y,
+      repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 2px,transparent 2px 8px),
+      linear-gradient(150deg,#c8102e,#a80c22);
+    box-shadow:inset 0 -4px 0 #1b2a5e;
+  }
+  .k-spain span{color:#ffe27a}
+  .k-spain.kit--collar::before{
+    background:linear-gradient(180deg,#1b2a5e 0 55%,#f5c518 55% 78%,#c8102e 78% 100%);
+  }
+  .k-spain26{background:linear-gradient(150deg,#c8102e,#9c0c22);opacity:.35}
+  .k-spain26 span{color:#ffe27a}
+  .k-roma{
+    background-image:linear-gradient(160deg,#9d1f24,#7a1219);
+    box-shadow:inset 0 -4px 0 #e0a92c;
+  }
+  .k-roma span{color:#f0b940}
+  .k-roma.kit--collar::before{background:#e0a92c}
+  .k-arg{background:repeating-linear-gradient(90deg,#fff 0 16%,#75aadb 16% 32%)}
+  .k-arg span{color:#1c2f4a}
+  .k-arg26{
+    background:#0c0c0e;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg stroke='%236cb4e4' stroke-width='1.6' fill='none' opacity='.85'%3E%3Cpath d='M30 4 C 46 10, 50 28, 34 34 C 22 38, 20 24, 32 22 C 40 21, 42 30, 34 32'/%3E%3Cpath d='M6 46 C 18 40, 28 46, 24 56'/%3E%3Cpath d='M54 44 C 44 40, 36 48, 42 58'/%3E%3C/g%3E%3Cg stroke='%23f2f2f2' stroke-width='1.1' fill='none' opacity='.6'%3E%3Cpath d='M2 20 C 12 14, 20 20, 16 30'/%3E%3Cpath d='M58 18 C 48 12, 40 18, 44 28'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:58% auto;
+  }
+  .k-arg26 span{color:#8fc7ea;mix-blend-mode:normal}
+  .k-arg26.kit--collar::before{background:#f4f4f4}
+
+  .creed{
+    max-width:56ch;margin:0 0 clamp(30px,4.5vw,46px);
+    font-size:1.06em;font-weight:300;color:#c9d0cb;
+  }
+  .creed b{font-weight:400;color:var(--paper);border-bottom:1px solid var(--cyan)}
+  .kits-note{margin-top:30px;max-width:52ch;font-weight:300;color:#c3cac5}
+
+  .colleges{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:14px;margin:0 0 4px;
+  }
+  .college{padding:14px 0 14px 18px;position:relative}
+  .college::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:3px;
+  }
+  .college--vandy::before{background:linear-gradient(180deg,#c9a227 0 50%,#0b0b0b 50% 100%)}
+  .college--penn::before{background:linear-gradient(180deg,#990000 0 50%,#011f5b 50% 100%)}
+  .college__name{
+    display:block;font-family:var(--display);font-weight:600;
+    font-size:clamp(19px,2.4vw,25px);letter-spacing:-.02em;line-height:1.1;
+  }
+  .college__note{
+    display:block;margin-top:5px;font-family:var(--mono);font-size:10px;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--paper-dim);
+  }
+
+  /* ---------- gear ---------- */
+  .gear{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
+  .gear > div{background:var(--ink);padding:26px 24px}
+  .gear h3{font-family:var(--display);font-weight:600;font-size:21px;margin:10px 0 8px;letter-spacing:-.02em}
+  .gear p{margin:0;font-weight:300;color:#c3cac5;font-size:.95em}
+
+  /* ---------- gallery ---------- */
+  .sheet{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+    gap:clamp(10px,1.6vw,18px);
+  }
+  .shot{margin:0;position:relative}
+  .shot--wide{grid-column:span 2}
+  .shot--tall .shot__box{aspect-ratio:3/4}
+  .sheet--portrait{grid-template-columns:repeat(auto-fit,minmax(190px,250px));justify-content:start}
+  .shot--sq .shot__box{aspect-ratio:1/1}
+  .shot__box img.shift-right{object-position:62% 45%}
+  .shot.is-empty .shot__box[data-slot]::after{content:attr(data-slot)}
+  @media (max-width:520px){.shot--wide{grid-column:span 1}}
+  .shot__box{
+    position:relative;aspect-ratio:3/2;overflow:hidden;
+    background:var(--ink-2);box-shadow:inset 0 0 0 1px var(--hair);
+    display:block;width:100%;padding:0;border:0;cursor:zoom-in;
+  }
+  .shot__box img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:saturate(.92);transition:transform .5s cubic-bezier(.2,.7,.3,1),filter .4s;
+  }
+  .shot__box:hover img{transform:scale(1.035);filter:saturate(1.05)}
+  .shot__n{
+    position:absolute;top:7px;left:8px;z-index:2;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+    color:var(--marigold);text-shadow:0 1px 3px rgba(0,0,0,.7);
+  }
+  .shot.is-empty .shot__box{cursor:default}
+  .shot.is-empty img{display:none}
+  .shot.is-empty .shot__box::after{
+    content:"empty frame";position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+    text-transform:uppercase;color:rgba(230,233,228,.28);
+    background-image:repeating-linear-gradient(45deg,rgba(230,233,228,.035) 0 8px,transparent 8px 16px);
+  }
+  .shot figcaption{
+    margin-top:8px;font-family:var(--mono);font-size:10px;
+    letter-spacing:.1em;color:var(--paper-dim);line-height:1.6;
+  }
+  .shot figcaption b{display:block;color:var(--paper);font-weight:500;letter-spacing:.06em}
+
+  .lightbox{
+    position:fixed;inset:0;z-index:200;background:rgba(8,10,12,.94);
+    display:none;align-items:center;justify-content:center;
+    padding:clamp(16px,4vw,52px);
+  }
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:100%;max-height:82vh;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  .lightbox__cap{
+    position:absolute;bottom:22px;left:0;right:0;text-align:center;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--paper-dim);
+  }
+  .lightbox__x{
+    position:absolute;top:16px;right:20px;background:none;border:0;
+    color:var(--paper);font-family:var(--mono);font-size:13px;cursor:pointer;
+    letter-spacing:.1em;padding:8px;
+  }
+  .lightbox__nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:none;border:0;color:var(--paper);cursor:pointer;
+    font-size:26px;padding:14px 18px;opacity:.6;line-height:1;
+  }
+  .lightbox__nav:hover{opacity:1}
+  .lightbox__nav--prev{left:4px}
+  .lightbox__nav--next{right:4px}
+
+  /* ---------- lines ---------- */
+  .lines{display:grid;gap:clamp(24px,3.4vw,36px)}
+  .line{padding-left:20px;position:relative}
+  .line::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:2px;
+    background:var(--ln);
+    background-image:var(--rail,none);
+  }
+  .line--tehran{--ln:#1f6b3a}
+  .line--oc{--ln:#e8722c}
+  .line--nash{
+    --ln:#c9a227;
+    --rail:repeating-linear-gradient(180deg,#c9a227 0 9px,#0b0b0b 9px 18px);
+  }
+  .line--nash::before{background-size:4px 18px}
+  .line--dmv{--ln:#a2a9ad}
+  .line--nyc{--ln:#b07d3f}
+  .line__head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .line__num{
+    font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ln);
+  }
+  .line__base{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(22px,3.2vw,32px);letter-spacing:-.025em;line-height:1;
+  }
+  .line__note{
+    font-family:var(--mono);font-size:10px;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--paper-dim);
+  }
+  .line__stops{
+    list-style:none;margin:0;padding:0;
+    display:flex;flex-wrap:wrap;gap:7px 9px;
+  }
+  .stop-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 11px 5px 9px;border-radius:99px;
+    box-shadow:inset 0 0 0 1px var(--hair);
+    font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:#cfd6d0;
+  }
+  .stop-chip::before{
+    content:"";width:6px;height:6px;border-radius:50%;background:var(--ln);flex:0 0 auto;
+  }
+  .stop-chip__x{
+    font-size:9.5px;letter-spacing:.06em;color:var(--marigold);
+  }
+  .stop-chip--soon{opacity:.45}
+  .stop-chip--soon::before{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ln)}
+
+  /* ---------- transit ---------- */
+  .lived{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;margin:0 0 clamp(28px,4vw,40px);
+  }
+  .lived{grid-template-columns:1fr}
+  .lived__item{display:flex;align-items:center;gap:14px}
+  .lived__pair{display:flex;flex:0 0 auto}
+  .lived__pair .lived__bullet:last-child{margin-left:-14px}
+  .lived__rank{
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--marigold);
+    flex:0 0 auto;
+  }
+  .lived__text b{margin-bottom:2px}
+  .lived__bullet{
+    width:46px;height:46px;border-radius:50%;background:var(--b);
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+    font-family:var(--display);font-weight:800;font-size:17px;color:#101418;
+  }
+  .lived__text{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--paper-dim);line-height:1.6}
+  .lived__text b{
+    display:block;font-family:var(--display);font-weight:600;font-size:20px;
+    letter-spacing:-.02em;text-transform:none;color:var(--paper);
+  }
+  .systems{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));
+    gap:14px 18px;
+  }
+  .sys{display:flex;align-items:center;gap:10px}
+  .sys__rank{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+    color:var(--paper-dim);flex:0 0 auto;
+  }
+  .sys__bullet{
+    width:30px;height:30px;border-radius:50%;background:var(--b);
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+    font-family:var(--mono);font-weight:500;font-size:10px;color:#0d1114;
+  }
+  .sys__text{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-dim);line-height:1.5}
+  .sys__text b{display:block;font-weight:500;font-size:12px;letter-spacing:.02em;color:var(--paper)}
+
+  /* ---------- languages ---------- */
+  .langs{display:flex;flex-wrap:wrap;gap:clamp(20px,5vw,64px);align-items:flex-end}
+  .lang__word{font-family:var(--display);font-weight:600;font-size:clamp(30px,5.4vw,60px);letter-spacing:-.03em;line-height:1;display:block}
+  .lang--fa .lang__word{font-family:var(--body)}
+  .lang p{margin:8px 0 0}
+
+  /* ---------- footer ---------- */
+  footer{padding:clamp(44px,8vh,90px) var(--gutter) 60px}
+  footer .big{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(30px,6vw,68px);letter-spacing:-.035em;line-height:.98;
+    margin:0 0 26px;max-width:16ch;
+  }
+  footer a{color:var(--marigold);text-decoration:none;border-bottom:1px solid rgba(240,168,30,.35)}
+  footer a:hover{border-bottom-color:var(--marigold)}
+  .colophon{margin-top:44px;display:flex;gap:20px;flex-wrap:wrap}
+
+  :focus-visible{outline:2px solid var(--marigold);outline-offset:3px}
+
+  /* ---------- motion ---------- */
+  .rise{opacity:0;transform:translateY(18px)}
+  .rise.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+  .hero h1,.hero__sub,.hero__meta,.strip{animation:expose .9s both cubic-bezier(.2,.7,.3,1)}
+  .hero__meta{animation-delay:.05s}
+  .hero h1{animation-delay:.12s}
+  .hero__sub{animation-delay:.26s}
+  .strip{animation-delay:.4s}
+  @keyframes expose{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+
+  @media (max-width:640px){
+    :root{--rail:26px}
+    .rail__mark{display:none}
+    .sprocket{width:9px;height:14px}
+    .frame{flex:1 0 116px;min-width:116px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rise{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="rail" aria-hidden="true">
+  <span class="sprocket"></span><span class="sprocket"></span><span class="sprocket"></span>
+  <span class="sprocket"></span><span class="sprocket"></span><span class="sprocket"></span>
+  <span class="sprocket"></span><span class="sprocket"></span><span class="sprocket"></span>
+  <span class="sprocket"></span><span class="sprocket"></span><span class="sprocket"></span>
+  <span class="rail__mark">KODAK 5247 · 36 EXP</span>
+</div>
+
+<main class="shell">
+
+  <header class="hero">
+    <div class="hero__meta">
+      <span class="label">Brooklyn, NY</span>
+      <span class="label">Data Science and Analytics</span>
+      <span class="label label--gold">Roll 01 / frame 05</span>
+    </div>
+
+    <h1>Rahan<em>Arasteh</em></h1>
+
+    <p class="hero__sub">
+      Data science and analytics at a bank in the <b>Flatiron District</b>, a Penn
+      master&rsquo;s in the evenings, and the rest of it spent on <b>two cameras</b>,
+      <b>too many soccer jerseys</b>, and a passport that keeps picking up stamps.
+    </p>
+
+    <div class="strip">
+      <div class="frame">
+        <div class="frame__n">01</div>
+        <div class="frame__city">Tehran</div>
+        <div class="frame__yr">born here</div>
+      </div>
+      <div class="frame">
+        <div class="frame__n">02</div>
+        <div class="frame__city">Orange County</div>
+        <div class="frame__yr">grew up here</div>
+      </div>
+      <div class="frame">
+        <div class="frame__n">03</div>
+        <div class="frame__city">Nashville</div>
+        <div class="frame__yr">vanderbilt</div>
+      </div>
+      <div class="frame">
+        <div class="frame__n">04</div>
+        <div class="frame__city">DMV</div>
+        <div class="frame__yr">first job</div>
+      </div>
+      <div class="frame frame--live">
+        <div class="frame__n">05</div>
+        <div class="frame__city">New York</div>
+        <div class="frame__yr">currently exposing</div>
+      </div>
+      <div class="frame frame--next">
+        <div class="frame__n">06</div>
+        <div class="frame__city">Dublin?</div>
+        <div class="frame__yr">unexposed</div>
+      </div>
+    </div>
+  </header>
+
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">Portrait</span>
+      <h2>Then and now</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="sheet sheet--portrait">
+      <figure class="shot shot--sq">
+        <button class="shot__box" type="button">
+          <span class="shot__n">THEN</span>
+          <img src="photos/22.jpg" class="shift-right" alt="As a kid, arms folded on a blue beanbag">
+        </button>
+        <figcaption><b>Then</b>Unbothered, on the beanbag</figcaption>
+      </figure>
+      <figure class="shot shot--sq">
+        <button class="shot__box" type="button">
+          <span class="shot__n">NOW</span>
+          <img src="photos/23.jpg" alt="Rahan Arasteh, headshot">
+        </button>
+        <figcaption><b>Now</b>The one that goes on LinkedIn</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">Frame 05</span>
+      <h2>What I&rsquo;m doing now</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="cols">
+      <div>
+        <span class="label">The day job</span>
+        <p>
+          Business and data analyst at Capital One since 2023. Most of my week is SQL:
+          building the pipelines that turn very large tables into something a team can
+          act on, designing the tests that say whether it worked, and translating
+          between the business side and the data scientists.
+        </p>
+      </div>
+      <div>
+        <span class="label">The night job</span>
+        <p>
+          Part-time and online, I&rsquo;m working through Penn Engineering&rsquo;s
+          MSE in Data Science. Three courses down, seven to go, 2028 if I keep the pace.
+          It is slower than a full-time program and considerably harder to explain at parties.
+        </p>
+      </div>
+      <div>
+        <span class="label">Before this</span>
+        <dl class="facts">
+          <dt>BS</dt>
+          <dd>Vanderbilt University
+            <small>Human &amp; Organizational Development · Political Science (honors)</small>
+          </dd>
+          <dt>Minors</dt>
+          <dd>Data Science &amp; Spanish</dd>
+          <dt>Toolkit</dt>
+          <dd>SQL &middot; Python &middot; Snowflake
+            <small>A/B testing &middot; pipeline automation &middot; Git</small>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">Sports</span>
+      <h2>What I watch</h2>
+      <span class="rule"></span>
+    </div>
+
+    <p class="creed">
+      I support three clubs and I&rsquo;ve made peace with it: <b>Persepolis</b>,
+      <b>Arsenal</b> and <b>Barcelona</b>. Everything else on this wall is
+      admiration rather than allegiance &mdash; a good jersey is a good jersey.
+      Arsenal is the one that costs me sleep.
+    </p>
+
+    <p class="creed">
+      The other half of the year is college sports. Vanderbilt makes me pull my
+      hair out &mdash; although, lately? Maybe not? And Penn gets a real share of it
+      too, not just a scoreboard glance.
+    </p>
+
+    <div class="colleges">
+      <div class="college college--vandy">
+        <span class="college__name">Vanderbilt</span>
+        <span class="college__note">Undergrad &middot; Anchor Down</span>
+      </div>
+      <div class="college college--penn">
+        <span class="college__name">Penn</span>
+        <span class="college__note">Grad &middot; Fight on, Penn</span>
+      </div>
+    </div>
+
+    <div class="squad__head" style="margin-top:clamp(34px,5vw,52px)">
+      <span class="label label--gold">The jersey wall</span><span class="rule"></span>
+    </div>
+
+    <div class="squad">
+      <div class="squad__head">
+        <span class="label label--gold">Persepolis</span><span class="rule"></span>
+      </div>
+      <div class="kits">
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-perse"><span>PFC</span></div>
+          <figcaption><b>23/24 home</b></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="squad">
+      <div class="squad__head">
+        <span class="label label--gold">Arsenal</span><span class="rule"></span>
+      </div>
+      <div class="kits">
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-ars-2223 kit--collar"><span>22/23</span></div>
+          <figcaption><b>22/23 home</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-arsenal kit--collar"><span>7</span></div>
+          <figcaption><b>23/24 home</b>Saka 7</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-ars-2425"><span>8</span></div>
+          <figcaption><b>24/25 third</b>Ødegaard 8</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-ars-2526 kit--collar"><span>8</span></div>
+          <figcaption><b>25/26 third</b>Ødegaard 8</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-ars-2627 kit--collar"><span>41</span></div>
+          <figcaption><b>26/27 home</b>Rice 41 · champions</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="squad">
+      <div class="squad__head">
+        <span class="label label--gold">Barcelona</span><span class="rule"></span>
+      </div>
+      <div class="kits">
+        <figure class="kit-cell kit-cell--star" style="margin:0">
+          <div class="kit k-barca-1213 kit--collar"><span>10</span></div>
+          <figcaption><b>12/13 home</b>Messi 10</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-barca-expand"><span>10</span></div>
+          <figcaption><b>17/18 home</b>Messi 10</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-barca-thin"><span>18/19</span></div>
+          <figcaption><b>18/19 home</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-barca-pink"><span>20/21</span></div>
+          <figcaption><b>20/21 third</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-barca-2021 kit--collar"><span>10</span></div>
+          <figcaption><b>20/21 home</b>Messi 10 · his last</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-barca-city"><span>21/22</span></div>
+          <figcaption><b>21/22 third</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-barca-2324"><span>23/24</span></div>
+          <figcaption><b>23/24 home</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-barca-2425"><span>11</span></div>
+          <figcaption><b>24/25 home</b>Raphinha 11</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="squad">
+      <div class="squad__head">
+        <span class="label label--gold">Country</span><span class="rule"></span>
+      </div>
+      <div class="kits">
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-usa26 kit--collar"><span>20</span></div>
+          <figcaption><b>USA 2026 home</b>Balogun 20</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-usa24 kit--collar"><span>USA</span></div>
+          <figcaption><b>USA 2024 home</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-iran kit--collar"><span>IRN</span></div>
+          <figcaption><b>Iran 2022 home</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-arg"><span>10</span></div>
+          <figcaption><b>Argentina 2022 home</b>Messi 10</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-arg26 kit--collar"><span>ARG</span></div>
+          <figcaption><b>Argentina 2026 away</b></figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-spain kit--collar"><span>ESP</span></div>
+          <figcaption><b>Spain 1994 home</b>re-edition</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-spain26"><span>?</span></div>
+          <figcaption><b>Spain 2026</b>on the way</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="squad">
+      <div class="squad__head">
+        <span class="label label--gold">Everywhere else</span><span class="rule"></span>
+      </div>
+      <div class="kits">
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-inter"><span>99</span></div>
+          <figcaption><b>Inter 24/25 home</b>Taremi 99</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-roma kit--collar kit--vneck"><span>17</span></div>
+          <figcaption><b>Roma 23/24 home</b>Azmoun 17</figcaption>
+        </figure>
+        <figure class="kit-cell" style="margin:0">
+          <div class="kit k-utd"><span>UTD</span></div>
+          <figcaption><b>Man Utd 21/22 away</b></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <p class="kits-note">
+      Also in the drawer: a 1994 USA retro tracksuit and a Trionda Pro match ball.
+      For what it&rsquo;s worth, I still think FIFA 13 was the peak.
+    </p>
+  </section>
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">In the bag</span>
+      <h2>Cameras</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="gear">
+      <div>
+        <span class="label">First choice &middot; 35mm</span>
+        <h3>Canon Rebel 2000</h3>
+        <p>The one I reach for. It isn&rsquo;t nostalgia &mdash; the pictures just come out better, and thirty-six frames makes you slower about taking them.</p>
+      </div>
+      <div>
+        <span class="label">Second &middot; digital</span>
+        <h3>Canon EOS R100</h3>
+        <p>For when I need the shot the same day, or when I can&rsquo;t afford to waste a roll finding out I got it wrong.</p>
+      </div>
+      <div>
+        <span class="label">Backup</span>
+        <h3>iPhone 15 Pro Max</h3>
+        <p>Always on me, and its telephoto is doing the work until I buy a proper long lens for the Canons.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">Roll 02</span>
+      <h2>Recent frames</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="squad">
+      <div class="squad__head">
+        <span class="label label--gold">35mm &middot; Rebel 2000</span><span class="rule"></span>
+      </div>
+      <div class="sheet">
+        <figure class="shot shot--wide">
+          <button class="shot__box" type="button">
+            <span class="shot__n">01</span>
+            <img src="photos/01.jpg" loading="lazy" alt="W 17th Street">
+          </button>
+          <figcaption><b>W 17th Street</b>One World Trade in the gap</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">02</span>
+            <img src="photos/02.jpg" loading="lazy" alt="John ' Broadway">
+          </button>
+          <figcaption><b>John &amp; Broadway</b>Downtown canyon</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">03</span>
+            <img src="photos/03.jpg" loading="lazy" alt="Greene Av / Fulton St">
+          </button>
+          <figcaption><b>Greene Av / Fulton St</b>Every fare counts</figcaption>
+        </figure>
+        <figure class="shot shot--wide">
+          <button class="shot__box" type="button">
+            <span class="shot__n">04</span>
+            <img src="photos/04.jpg" loading="lazy" alt="Badoom">
+          </button>
+          <figcaption><b>Badoom</b>Supervising the J/Z</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">05</span>
+            <img src="photos/05.jpg" loading="lazy" alt="Closing time">
+          </button>
+          <figcaption><b>Closing time</b>Chairs stacked against a lavender wall</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">06</span>
+            <img src="photos/06.jpg" loading="lazy" alt="Flags up">
+          </button>
+          <figcaption><b>Flags up</b>Somebody&rsquo;s tournament</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">07</span>
+            <img src="photos/07.jpg" loading="lazy" alt="Second half">
+          </button>
+          <figcaption><b>Second half</b>Everyone facing the same way</figcaption>
+        </figure>
+        <figure class="shot shot--wide">
+          <button class="shot__box" type="button">
+            <span class="shot__n">08</span>
+            <img src="photos/08.jpg" loading="lazy" alt="Under the tracks">
+          </button>
+          <figcaption><b>Under the tracks</b>Broadway, waiting on the J</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="squad" style="margin-top:clamp(30px,4.5vw,48px)">
+      <div class="squad__head">
+        <span class="label label--gold">Digital &middot; EOS R100</span><span class="rule"></span>
+      </div>
+      <div class="sheet">
+        <figure class="shot shot--wide">
+          <button class="shot__box" type="button">
+            <span class="shot__n">09</span>
+            <img src="photos/09.jpg" loading="lazy" alt="Vanderbilt">
+          </button>
+          <figcaption><b>Vanderbilt</b>Dusk, winter term</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">10</span>
+            <img src="photos/10.jpg" loading="lazy" alt="Real estate capital of the world">
+          </button>
+          <figcaption><b>Real estate capital of the world</b>A whole block under scaffolding</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">11</span>
+            <img src="photos/11.jpg" loading="lazy" alt="The Tidal Basin">
+          </button>
+          <figcaption><b>The Tidal Basin</b>Peak bloom, paddle boats out</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">12</span>
+            <img src="photos/12.jpg" loading="lazy" alt="The Monument">
+          </button>
+          <figcaption><b>The Monument</b>Blossoms and a very blue sky</figcaption>
+        </figure>
+        <figure class="shot shot--wide">
+          <button class="shot__box" type="button">
+            <span class="shot__n">13</span>
+            <img src="photos/13.jpg" loading="lazy" alt="Notre-Dame">
+          </button>
+          <figcaption><b>Notre-Dame</b>Montreal</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="squad" style="margin-top:clamp(30px,4.5vw,48px)">
+      <div class="squad__head">
+        <span class="label label--gold">iPhone 15 Pro Max</span><span class="rule"></span>
+      </div>
+      <div class="sheet">
+        <figure class="shot shot--tall">
+          <button class="shot__box" type="button">
+            <span class="shot__n">14</span>
+            <img src="photos/14.jpg" loading="lazy" alt="Sevilla">
+          </button>
+          <figcaption><b>Sevilla</b>Plaza de España through a slot</figcaption>
+        </figure>
+        <figure class="shot shot--wide">
+          <button class="shot__box" type="button">
+            <span class="shot__n">15</span>
+            <img src="photos/15.jpg" loading="lazy" alt="New York">
+          </button>
+          <figcaption><b>New York</b>Sunset over the tracks, through the rain</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">16</span>
+            <img src="photos/16.jpg" loading="lazy" alt="Hong Kong">
+          </button>
+          <figcaption><b>Hong Kong</b>Postmodern, against the peak</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">17</span>
+            <img src="photos/17.jpg" loading="lazy" alt="Copenhagen">
+          </button>
+          <figcaption><b>Copenhagen</b>Yellow and half-timbered</figcaption>
+        </figure>
+        <figure class="shot shot--tall">
+          <button class="shot__box" type="button">
+            <span class="shot__n">18</span>
+            <img src="photos/18.jpg" loading="lazy" alt="Paris">
+          </button>
+          <figcaption><b>Paris</b>Everyone leaves a name</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="squad" style="margin-top:clamp(30px,4.5vw,48px)">
+      <div class="squad__head">
+        <span class="label label--gold">Expired disposable</span><span class="rule"></span>
+      </div>
+      <div class="sheet">
+        <figure class="shot shot--wide">
+          <button class="shot__box" type="button">
+            <span class="shot__n">19</span>
+            <img src="photos/19.jpg" loading="lazy" alt="The Z">
+          </button>
+          <figcaption><b>The Z</b>Pulling in, beloved and rarely on time</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">20</span>
+            <img src="photos/20.jpg" loading="lazy" alt="Fifth Avenue, orange">
+          </button>
+          <figcaption><b>Fifth Avenue, orange</b>The smoke day</figcaption>
+        </figure>
+        <figure class="shot">
+          <button class="shot__box" type="button">
+            <span class="shot__n">21</span>
+            <img src="photos/21.jpg" loading="lazy" alt="Bastille Day">
+          </button>
+          <figcaption><b>Bastille Day</b>Sun straight into the lens</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">Stamps</span>
+      <h2>Where I&rsquo;ve been</h2>
+      <span class="rule"></span>
+    </div>
+
+    <p class="creed">
+      Five home bases so far, and the trips I took out from each. My passport is
+      permanently in the middle of collecting new stamps. Numbers are repeat visits
+      within that stretch.
+    </p>
+
+    <div class="lines">
+      <div class="line line--tehran">
+        <div class="line__head">
+          <span class="line__num">01</span>
+          <span class="line__base">Tehran</span>
+          <span class="line__note">born here</span>
+        </div>
+        <ul class="line__stops">
+          <li class="stop-chip">Kish Island</li>
+          <li class="stop-chip">Kuala Lumpur</li>
+          <li class="stop-chip">Dubai</li>
+          <li class="stop-chip">Ankara</li>
+        </ul>
+      </div>
+
+      <div class="line line--oc">
+        <div class="line__head">
+          <span class="line__num">02</span>
+          <span class="line__base">Orange County</span>
+          <span class="line__note">Irvine</span>
+        </div>
+        <ul class="line__stops">
+          <li class="stop-chip">Las Vegas<span class="stop-chip__x">&times;4–5</span></li>
+          <li class="stop-chip">Solvang</li>
+          <li class="stop-chip">San Francisco</li>
+          <li class="stop-chip">San Diego<span class="stop-chip__x">&times;2–3</span></li>
+          <li class="stop-chip">Cancún</li>
+          <li class="stop-chip">Ensenada</li>
+          <li class="stop-chip">Niagara Falls</li>
+          <li class="stop-chip">New York</li>
+          <li class="stop-chip">Washington, DC</li>
+          <li class="stop-chip">Bratislava</li>
+          <li class="stop-chip">Vienna</li>
+          <li class="stop-chip">Budapest</li>
+          <li class="stop-chip">Berlin</li>
+          <li class="stop-chip">Vancouver<span class="stop-chip__x">&times;2</span></li>
+          <li class="stop-chip">Chicago</li>
+          <li class="stop-chip">Boston</li>
+          <li class="stop-chip">Providence</li>
+          <li class="stop-chip">Nashville</li>
+        </ul>
+      </div>
+
+      <div class="line line--nash">
+        <div class="line__head">
+          <span class="line__num">03</span>
+          <span class="line__base">Nashville</span>
+          <span class="line__note">college</span>
+        </div>
+        <ul class="line__stops">
+          <li class="stop-chip">Philadelphia</li>
+          <li class="stop-chip">Chicago<span class="stop-chip__x">&times;2</span></li>
+          <li class="stop-chip">Cabo</li>
+          <li class="stop-chip">Durham</li>
+          <li class="stop-chip">Dallas<span class="stop-chip__x">&times;lost count</span></li>
+          <li class="stop-chip">Montreal</li>
+          <li class="stop-chip">Washington, DC</li>
+        </ul>
+      </div>
+
+      <div class="line line--dmv">
+        <div class="line__head">
+          <span class="line__num">04</span>
+          <span class="line__base">The DMV</span>
+          <span class="line__note">first job</span>
+        </div>
+        <ul class="line__stops">
+          <li class="stop-chip">Paris<span class="stop-chip__x">&times;2</span></li>
+          <li class="stop-chip">Barcelona</li>
+          <li class="stop-chip">Istanbul<span class="stop-chip__x">&times;3</span></li>
+          <li class="stop-chip">London<span class="stop-chip__x">&times;2</span></li>
+          <li class="stop-chip">Nashville<span class="stop-chip__x">&times;3</span></li>
+          <li class="stop-chip">Nassau</li>
+          <li class="stop-chip">Atlanta</li>
+          <li class="stop-chip">Rome</li>
+          <li class="stop-chip">Chicago<span class="stop-chip__x">&times;2</span></li>
+          <li class="stop-chip">Copenhagen</li>
+          <li class="stop-chip">Vancouver</li>
+          <li class="stop-chip">Athens<span class="stop-chip__x">&times;2</span></li>
+          <li class="stop-chip">Belgrade</li>
+          <li class="stop-chip">Cancún</li>
+          <li class="stop-chip">Edinburgh</li>
+          <li class="stop-chip">Hong Kong</li>
+          <li class="stop-chip">Hanoi</li>
+          <li class="stop-chip">Bangkok</li>
+          <li class="stop-chip">Madrid</li>
+          <li class="stop-chip">Sevilla</li>
+          <li class="stop-chip">Dallas<span class="stop-chip__x">&times;lost count</span></li>
+          <li class="stop-chip">New York<span class="stop-chip__x">&times;2</span></li>
+          <li class="stop-chip">Montreal</li>
+        </ul>
+      </div>
+
+      <div class="line line--nyc">
+        <div class="line__head">
+          <span class="line__num">05</span>
+          <span class="line__base">New York</span>
+          <span class="line__note">current base</span>
+        </div>
+        <ul class="line__stops">
+          <li class="stop-chip stop-chip--soon">Buenos Aires</li>
+          <li class="stop-chip stop-chip--soon">Montevideo</li>
+          <li class="stop-chip stop-chip--soon">Andalusia</li>
+          <li class="stop-chip stop-chip--soon">Algarve</li>
+          <li class="stop-chip stop-chip--soon">Porto</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">Transit</span>
+      <h2>Systems, ranked</h2>
+      <span class="rule"></span>
+    </div>
+
+    <p class="creed">
+      I plan trips around the transit map. Before I know where I&rsquo;m eating I know
+      which line goes there and how late the last one runs, and I&rsquo;d rather spend an
+      afternoon riding a system end to end than queue for the observation deck. A city
+      tells you what it thinks of its people by how it moves them. Ranked, then:
+    </p>
+
+    <div class="lived">
+      <div class="lived__item">
+        <span class="lived__rank">01</span>
+        <span class="lived__pair">
+          <span class="lived__bullet" style="--b:#996633">J</span>
+          <span class="lived__bullet" style="--b:#996633">Z</span>
+        </span>
+        <span class="lived__text"><b>MTA</b>New York &mdash; I rely on it every day. Sentimental, not operational.</span>
+      </div>
+      <div class="lived__item">
+        <span class="lived__rank">02</span>
+        <span class="lived__bullet" style="--b:#a2a9ad">SV</span>
+        <span class="lived__text"><b>WMATA</b>Washington &mdash; feels like home.</span>
+      </div>
+    </div>
+
+    <ul class="systems">
+        <li class="sys">
+          <span class="sys__rank">03</span>
+          <span class="sys__bullet" style="--b:#dc241f">U</span>
+          <span class="sys__text"><b>The Underground</b>London</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">04</span>
+          <span class="sys__bullet" style="--b:#f2c500">M</span>
+          <span class="sys__text"><b>Métro</b>Paris</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">05</span>
+          <span class="sys__bullet" style="--b:#14387f">M</span>
+          <span class="sys__text"><b>Metro</b>Madrid</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">06</span>
+          <span class="sys__bullet" style="--b:#9b2743">MTR</span>
+          <span class="sys__text"><b>MTR</b>Hong Kong</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">07</span>
+          <span class="sys__bullet" style="--b:#009ee0">M</span>
+          <span class="sys__text"><b>Metro</b>Copenhagen</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">08</span>
+          <span class="sys__bullet" style="--b:#00a1a7">M</span>
+          <span class="sys__text"><b>Metro</b>Istanbul</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">09</span>
+          <span class="sys__bullet" style="--b:#009b3a">L</span>
+          <span class="sys__text"><b>CTA</b>Chicago</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">10</span>
+          <span class="sys__bullet" style="--b:#ff7900">M</span>
+          <span class="sys__text"><b>Metro</b>Rome</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">11</span>
+          <span class="sys__bullet" style="--b:#cf1027">M</span>
+          <span class="sys__text"><b>TMB</b>Barcelona</span>
+        </li>
+        <li class="sys">
+          <span class="sys__rank">12</span>
+          <span class="sys__bullet" style="--b:#6cbe45">BTS</span>
+          <span class="sys__text"><b>BTS Skytrain</b>Bangkok</span>
+        </li>
+    </ul>
+
+    <p class="kits-note">
+      Plenty of others came with the trips &mdash; Tehran, Vienna, Budapest, Berlin,
+      Montreal, Vancouver, Athens, Edinburgh, Hanoi, Sevilla, Buenos Aires &mdash; they
+      just didn&rsquo;t make the twelve.
+    </p>
+  </section>
+
+  <section class="plate rise">
+    <div class="plate__head">
+      <span class="label label--gold">Three</span>
+      <h2>Languages</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="langs">
+      <div class="lang">
+        <span class="lang__word">English</span>
+        <p class="label">Everyday</p>
+      </div>
+      <div class="lang">
+        <span class="lang__word">Español</span>
+        <p class="label">Minored in it, still use it</p>
+      </div>
+      <div class="lang lang--fa">
+        <span class="lang__word">فارسی</span>
+        <p class="label">Family</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="big">Frame six is still unexposed.</p>
+    <p style="max-width:46ch;font-weight:300;color:#c3cac5;margin:0 0 22px">
+      New York for the foreseeable future, with a long-running plan to end up somewhere across the Atlantic.
+      If you want to talk data, soccer, or film stock &mdash;
+    </p>
+    <p style="margin:0"><a href="mailto:hello@rahanarasteh.com">hello@rahanarasteh.com</a></p>
+    <div class="colophon">
+      <span class="label">Built in one page</span>
+      <span class="label">No trackers</span>
+      <span class="label label--gold">© 2026</span>
+    </div>
+  </footer>
+
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lightbox__x" type="button" data-close>CLOSE ✕</button>
+  <button class="lightbox__nav lightbox__nav--prev" type="button" data-step="-1" aria-label="Previous photo">‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox__nav lightbox__nav--next" type="button" data-step="1" aria-label="Next photo">›</button>
+  <p class="lightbox__cap" id="lightbox-cap"></p>
+</div>
+
+<script>
+  (function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var items = document.querySelectorAll('.rise');
+    if (reduce || !('IntersectionObserver' in window)) {
+      items.forEach(function(el){ el.classList.add('in'); });
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      items.forEach(function(el){ io.observe(el); });
+    }
+
+    /* gallery: flag missing files, then wire the lightbox */
+    var shots = Array.prototype.slice.call(document.querySelectorAll('.shot'));
+    shots.forEach(function(shot){
+      var img = shot.querySelector('img');
+      img.addEventListener('error', function(){ shot.classList.add('is-empty'); });
+      if (img.complete && img.naturalWidth === 0) shot.classList.add('is-empty');
+    });
+
+    var box = document.getElementById('lightbox');
+    var view = document.getElementById('lightbox-img');
+    var cap = document.getElementById('lightbox-cap');
+    var current = -1;
+    var opener = null;
+
+    function live(){ return shots.filter(function(s){ return !s.classList.contains('is-empty'); }); }
+
+    function show(i){
+      var list = live();
+      if (!list.length) return;
+      current = (i + list.length) % list.length;
+      var shot = list[current];
+      view.src = shot.querySelector('img').src;
+      cap.textContent = shot.querySelector('figcaption').textContent.replace(/\s+/g, ' ').trim();
+      box.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close(){
+      box.classList.remove('open');
+      view.src = '';
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    }
+
+    shots.forEach(function(shot){
+      shot.querySelector('.shot__box').addEventListener('click', function(){
+        if (shot.classList.contains('is-empty')) return;
+        opener = this;
+        show(live().indexOf(shot));
+      });
+    });
+
+    box.addEventListener('click', function(e){
+      if (e.target === box || e.target.hasAttribute('data-close')) close();
+      var step = e.target.getAttribute('data-step');
+      if (step) show(current + parseInt(step, 10));
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (!box.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') show(current + 1);
+      if (e.key === 'ArrowLeft') show(current - 1);
+    });
+  })();
+</script>
+</body>
+</html>
