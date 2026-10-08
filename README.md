@@ -13,8 +13,11 @@ Live at **[rahanarasteh.com](https://rahanarasteh.com)**, hosted on GitHub Pages
 index.html      the whole site — markup, styles and scripts in one file
 photos/         01–23.jpg, referenced by number from index.html
 og.jpg          1200×630 image for link previews
+og-sofa.jpg     the same, for the /visit page
+favicon.png     the tab icon
 CNAME           the custom domain
 visit/          a separate page, not linked from the main site
+SETUP-visit.md  how to set up the booking backend
 ```
 
 There's no `package.json` and nothing to compile. That's deliberate: a personal
@@ -22,18 +25,21 @@ site should still work in five years without a dependency tree to resurrect.
 
 ## The page
 
-Six sections, all sharing one design language borrowed from a photographic
+Nine sections, all sharing one design language borrowed from a photographic
 contact sheet — a sprocket rail down the left edge, numbered frames, sections
 labelled like exposures.
 
 - **Then and now** — two portraits
-- **What I'm doing now** — work, the Penn program, background
+- **What I'm doing now** — work, the Penn program, background; the heading
+  links to LinkedIn
+- **Projects** — side work; the heading links to GitHub
 - **What I watch** — soccer and college sports, including a wall of every
   jersey I own, each one drawn in CSS rather than photographed
 - **Cameras** and **Recent frames** — four rolls of photos, film first
 - **Where I've been** — every city, grouped by which home base I travelled out
   from, coloured as transit lines
 - **Systems, ranked** — my top twelve metro systems, because of course
+- **Languages** — English, Español, فارسی
 
 The jersey wall is the part worth looking at if you're reading the source. Each
 shirt is a single `div` with a `clip-path` silhouette and layered CSS gradients
